@@ -1,0 +1,48 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine.UI;
+using UnityEngine;
+
+public class Raycast : MonoBehaviour
+{
+
+
+    [SerializeField]
+    private int rayLength = 10;
+    [SerializeField]
+    private LayerMask layerMaskInteract;
+    [SerializeField]
+    private Canvas mainCanvas = null;
+    private RiddleUI riddle_ui = null;
+
+    private void Start()
+    {
+        mainCanvas = FindObjectOfType<Canvas>();
+        riddle_ui = mainCanvas.GetComponent<RiddleUI>();
+    }
+
+    private void Update()
+    {
+        RaycastHit hit;
+        Vector3 fwd = transform.TransformDirection(Vector3.forward);
+        if(Physics.Raycast(transform.position, fwd, out hit, rayLength, layerMaskInteract.value))
+        {
+            if (hit.collider.CompareTag("Object"))
+            {
+                Interactable interactable = hit.collider.GetComponent<Interactable>();
+                riddle_ui.CrosshairActive();
+                if (Input.GetKeyDown("e"))
+                {
+                    if(interactable != null)
+                    {
+                        interactable.Interact();
+                    }
+                }
+            }
+        }
+        else
+        {
+            riddle_ui.CrosshairNormal();
+        }
+    }
+}
