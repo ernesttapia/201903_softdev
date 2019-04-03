@@ -1,0 +1,9 @@
+using UnityEngine;
+
+[CreateAssetMenu(fileName = "New Question", menuName = "Question/SimpleMath")]
+public class Riddle : ScriptableObject
+{
+    public Sprite question = null;
+    public string answer;
+    public bool isAnswered = false;
+}
