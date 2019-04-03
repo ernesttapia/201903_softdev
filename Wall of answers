@@ -1,0 +1,38 @@
+using UnityEngine;
+using UnityEngine.UI;
+
+public class MagicWall : Interactable
+{
+    [SerializeField]
+    private Riddle riddle = null;
+    [SerializeField]
+    private Canvas mainCanvas = null;
+
+    public override void Interact()
+    {
+        base.Interact();
+        mainCanvas = FindObjectOfType<Canvas>();
+        MagicQuestion();
+    }
+
+    void MagicQuestion()
+    {
+        RiddleUI uiController = mainCanvas.GetComponent<RiddleUI>();
+        if (mainCanvas && riddle != null)
+        {
+            uiController.ShowUI(riddle);
+        }
+    }
+
+    private void Update()
+    {
+        if(riddle != null)
+        {
+            if(riddle.isAnswered != false)
+            {
+                riddle.isAnswered = false;
+                Destroy(gameObject);
+            }
+        }
+    }
+}
