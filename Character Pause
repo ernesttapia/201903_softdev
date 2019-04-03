@@ -1,0 +1,79 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+
+public class PausedMenu : MonoBehaviour
+{
+    public static bool gameIsPaused = false;
+    public GameObject pausedMenuUI;
+    [SerializeField]
+    private Image uiCrosshair = null;
+    // Start is called before the first frame update
+
+    private void Start()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        gameIsPaused = false;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (!gameIsPaused)
+            {
+                Pause();
+            }
+        }
+    }
+
+    public void Resume()
+    {
+        pausedMenuUI.SetActive(false);
+        uiCrosshair.enabled = true;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        if (Time.timeScale != 1f)
+        {
+            Time.timeScale = 1f;
+        }
+        gameIsPaused = false;
+    }
+
+    public void ResumeCursorFix()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+
+    void Pause()
+    {
+        pausedMenuUI.SetActive(true);
+        uiCrosshair.enabled = false;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        if (Time.timeScale != 0f)
+        {
+            Time.timeScale = 0f;
+        }
+        gameIsPaused = true;
+    }
+
+    public void LoadMenu()
+    {
+        if (Time.timeScale != 1f)
+        {
+            Time.timeScale = 1f;
+        }
+        SceneManager.LoadScene("MenuScreen");
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
+}
