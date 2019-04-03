@@ -1,0 +1,58 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class PortalMenuScript : MonoBehaviour
+{
+    [SerializeField]
+    private GameObject portalMenuUI = null;
+    [SerializeField]
+    private GameObject youWonMenuUI = null;
+    [SerializeField]
+    private Image uiCrosshair = null;
+
+    private void OnValidate()
+    {
+        if (portalMenuUI != false)
+        {
+            portalMenuUI.SetActive(false);
+        }
+    }
+
+    public void ShowPortalMenu()
+    {
+        portalMenuUI.SetActive(true);
+        uiCrosshair.enabled = false;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        if (Time.timeScale != 0f)
+        {
+            Time.timeScale = 0f;
+        }
+    }
+
+    public void ResetGameStatus()
+    {
+        portalMenuUI.SetActive(false);
+        uiCrosshair.enabled = true;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        if (Time.timeScale != 1f)
+        {
+            Time.timeScale = 1f;
+        }
+    }
+
+    public void YouWonScreenMenu()
+    {
+        youWonMenuUI.SetActive(true);
+        uiCrosshair.enabled = false;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        if (Time.timeScale != 0f)
+        {
+            Time.timeScale = 0f;
+        }
+    }
+}
