@@ -1,0 +1,99 @@
+using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.Events;
+
+public class RiddleUI : MonoBehaviour
+{
+    [SerializeField]
+    private GameObject riddle_ui = null;
+    [SerializeField]
+    private Image uiCrosshair = null;
+    [SerializeField]
+    private Image question = null;
+    [SerializeField]
+    private InputField answer = null;
+
+    private Riddle _riddle = null;
+
+    void Start()
+    {
+        if (riddle_ui != false)
+        {
+            riddle_ui.SetActive(false);
+        }
+    }
+
+    public void CheckAnswer()
+    {
+        string answerString = answer.text;
+        if (_riddle != null)
+        {
+            if (answerString == _riddle.answer)
+            {
+                Debug.Log("Correct");
+                CancelUI();
+                if(_riddle != null)
+                {
+                    _riddle.isAnswered = true;
+                }
+            }
+            else
+            {
+                Debug.Log("Wrong");
+                GameOverMenu.instance.ShowGameOver();
+            }
+        }
+    }
+
+    void SetQuestionnaire()
+    {
+        if(_riddle != null)
+        { 
+            question.sprite = _riddle.question;
+        }
+    }
+
+    public void ShowUI(Riddle riddle)
+    {
+        riddle_ui.SetActive(true);
+        _riddle = riddle;
+        uiCrosshair.enabled = false;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        SetQuestionnaire();
+        if (Time.timeScale != 0f)
+        {
+            Time.timeScale = 0f;
+        }
+    }
+
+    public void CancelUI()
+    {
+        riddle_ui.SetActive(false);
+        uiCrosshair.enabled = true;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        if (Time.timeScale != 1f)
+        {
+            Time.timeScale = 1f;
+        }
+    }
+
+    public void CrosshairActive()
+    {
+        if (uiCrosshair.color == Color.white)
+        {
+            uiCrosshair.color = Color.red;
+            Debug.Log("test active");
+        }
+    }
+
+    public void CrosshairNormal()
+    {
+        if (uiCrosshair.color != Color.white)
+        {
+            uiCrosshair.color = Color.white;
+            Debug.Log("test");
+        }
+    }
+}
